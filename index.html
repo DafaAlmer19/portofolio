@@ -148,17 +148,19 @@
     transform: rotate(-45deg) translate(7px, -8px);
 }
 
-/* Nav Links untuk mobile */
+/* Nav Links DESKTOP (default) */
 .nav-links {
     display: flex;
     gap: 15px;
 }
 
+/* Mobile styles */
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
     }
     
+    /* Sembunyikan nav-links di mobile secara default */
     .nav-links {
         position: fixed;
         top: 0;
@@ -176,10 +178,16 @@
         display: flex;
         margin: 0;
         padding: 0;
+        /* Pastikan ga bisa di klik saat di luar layar */
+        pointer-events: none;
+        opacity: 0;
     }
     
+    /* Tampilkan nav-links saat active */
     .nav-links.active {
         right: 0;
+        pointer-events: all;
+        opacity: 1;
     }
     
     .nav-links a {
@@ -205,10 +213,15 @@
         height: 100%;
         background-color: rgba(0,0,0,0.5);
         z-index: 80;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
     
     .menu-overlay.active {
         display: block;
+        pointer-events: all;
+        opacity: 1;
     }
 }
 
@@ -1430,6 +1443,7 @@ if (hamburger && navLinks && menuOverlay) {
 </body>
 
 </html>
+
 
 
 
