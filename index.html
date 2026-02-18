@@ -88,13 +88,6 @@
             z-index: 10;
         }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
         .logo {
             font-size: 1.2rem;
             font-weight: 700;
@@ -112,137 +105,132 @@
             opacity: 0.7;
         }
 
-        .nav-links {
+        /* ===== DESKTOP NAV ( > 768px ) ===== */
+        .desktop-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .desktop-nav .nav-links {
             display: flex;
             gap: 15px;
         }
 
-/* Hamburger Menu */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 20px;
-    cursor: pointer;
-    z-index: 100;
-}
-
-.hamburger span {
-    width: 100%;
-    height: 3px;
-    background-color: var(--fg);
-    transition: all 0.3s ease;
-}
-
-/* Animasi hamburger jadi X */
-.hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -8px);
-}
-
-/* Nav Links DESKTOP (default) */
-.nav-links {
-    display: flex;
-    gap: 15px;
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-    .hamburger {
-        display: flex;
-        position: relative;
-        z-index: 1002;
-    }
-    
-    /* Nav Links */
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 280px;
-        height: 100vh;
-        background-color: white;
-        box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 25px;
-        transition: right 0.3s ease;
-        z-index: 1000;
-        display: flex;
-        margin: 0;
-        padding: 20px;
-        /* Pastikan ga bisa di klik saat di luar layar */
-        pointer-events: none;
-        opacity: 0;
-        visibility: hidden;
-    }
-    
-    /* Tampilkan nav-links saat active */
-    .nav-links.active {
-        right: 0;
-        pointer-events: all;
-        opacity: 1;
-        visibility: visible;
-    }
-    
-    .nav-links a {
-        font-size: 1.3rem;
-        color: var(--fg);
-        text-decoration: none;
-        padding: 12px 25px;
-        width: 100%;
-        text-align: center;
-        font-weight: 500;
-        border-radius: 8px;
-    }
-    
-    .nav-links a:hover {
-        background-color: var(--gray-light);
-    }
-    
-    /* Overlay */
-    .menu-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5);
-        z-index: 999;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        backdrop-filter: blur(2px);
-    }
-    
-    .menu-overlay.active {
-        display: block;
-        pointer-events: all;
-        opacity: 1;
-    }
-}
-
-        .nav-links a {
+        .desktop-nav .nav-links a {
             text-decoration: none;
             color: var(--gray-dark);
             font-weight: 500;
-            transition: color 0.3s, transform 0.2s;
             font-size: 0.9rem;
+            transition: color 0.3s, transform 0.2s;
         }
 
-        .nav-links a:hover {
+        .desktop-nav .nav-links a:hover {
             color: #000;
             transform: translateY(-2px);
+        }
+
+        /* ===== MOBILE NAV ( < 768px ) ===== */
+        .mobile-nav {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background-color: var(--fg);
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -8px);
+        }
+
+        /* Mobile Menu (slide from right) */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            transition: right 0.3s ease;
+            z-index: 1001;
+            display: flex;
+            padding: 20px;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu a {
+            font-size: 1.3rem;
+            color: var(--fg);
+            text-decoration: none;
+            padding: 15px 30px;
+            width: 100%;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .mobile-menu a:active {
+            background-color: var(--gray-light);
+        }
+
+        /* Overlay */
+        .menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .menu-overlay.active {
+            display: block;
+        }
+
+        /* Responsive: di HP tampilkan mobile-nav, sembunyikan desktop-nav */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-nav {
+                display: flex;
+            }
         }
 
         /* Hero */
@@ -794,14 +782,6 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 40px;
             }
-            
-            .nav-links {
-                gap: 25px;
-            }
-            
-            .nav-links a {
-                font-size: 1rem;
-            }
         }
 
         /* Desktop */
@@ -826,10 +806,6 @@
             .about-content {
                 grid-template-columns: 1fr 1fr;
                 gap: 60px;
-            }
-            
-            .nav-links a {
-                font-size: 1rem;
             }
             
             .logo {
@@ -880,14 +856,6 @@
             .profile-photo {
                 width: 120px;
                 height: 120px;
-            }
-            
-            .nav-links {
-                gap: 10px;
-            }
-            
-            .nav-links a {
-                font-size: 0.8rem;
             }
             
             .logo {
@@ -942,46 +910,37 @@
                 font-size: 0.7rem;
             }
         }
-
-        /* Fix untuk mobile navigation */
-        @media (max-width: 360px) {
-            .nav-links {
-                gap: 5px;
-            }
-            
-            .nav-links a {
-                font-size: 0.7rem;
-            }
-            
-            .logo {
-                font-size: 0.9rem;
-                max-width: 100px;
-            }
-            
-            .character-box {
-                width: 35px;
-                height: 50px;
-            }
-        }
     </style>
 </head>
 <body>
 <header>
     <div class="container">
-        <nav>
+        <!-- Navbar untuk PC/Desktop (tampil di layar > 768px) -->
+        <nav class="desktop-nav">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <div class="character-box">
                     <div class="character-eyes">
-                        <div class="eye">
-                            <div class="eyeball">
-                                <div class="pupil"></div>
-                            </div>
-                        </div>
-                        <div class="eye">
-                            <div class="eyeball">
-                                <div class="pupil"></div>
-                            </div>
-                        </div>
+                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
+                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
+                    </div>
+                </div>
+                <a href="#" class="logo">HI</a>
+            </div>
+            <div class="nav-links">
+                <a href="#about">Tentang</a>
+                <a href="#skills">Keahlian</a>
+                <a href="#projects">Proyek</a>
+                <a href="#contact">Kontak</a>
+            </div>
+        </nav>
+        
+        <!-- Navbar untuk HP (tampil di layar < 768px) -->
+        <nav class="mobile-nav">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="character-box">
+                    <div class="character-eyes">
+                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
+                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
                     </div>
                 </div>
                 <a href="#" class="logo">HI</a>
@@ -994,8 +953,8 @@
                 <span></span>
             </div>
             
-            <!-- Nav Links -->
-            <div class="nav-links" id="navLinks">
+            <!-- Menu HP (slide dari kanan) -->
+            <div class="mobile-menu" id="mobileMenu">
                 <a href="#about">Tentang</a>
                 <a href="#skills">Keahlian</a>
                 <a href="#projects">Proyek</a>
@@ -1004,8 +963,12 @@
         </nav>
     </div>
 </header>
-    
+
+<!-- Overlay -->
+<div class="menu-overlay" id="menuOverlay"></div>
+
 <main>
+    <!-- Hero section -->
     <section class="hero fade-up">
         <div class="container">
             <img src="https://placehold.co/150x150/1e1e1e/ffffff?text=Dafa" 
@@ -1020,6 +983,7 @@
         </div>
     </section>
 
+    <!-- About section -->
     <section id="about" class="fade-up">
         <div class="container">
             <h2 class="section-title">Tentang Saya</h2>
@@ -1028,15 +992,16 @@
                     <p id="about-description"></p>
                     <p id="about-detail"></p>
                 </div>
-            <div class="about-image">
-                <div class="card-stack">
-                    <img class="card" id="aboutCard" src="https://placehold.co/400x400/1e1e1e/ffffff?text=Dafa+1" alt="Dafa 1">
+                <div class="about-image">
+                    <div class="card-stack">
+                        <img class="card" id="aboutCard" src="https://placehold.co/400x400/1e1e1e/ffffff?text=Dafa+1" alt="Dafa 1">
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </section>
 
+    <!-- Eye section -->
     <section class="eye-section fade-up">
         <div class="container">
             <div class="eyes-container">
@@ -1063,6 +1028,7 @@
         </div>
     </section>
 
+    <!-- Skills section -->
     <section id="skills" class="fade-up">
         <div class="container">
             <h2 class="section-title">Keahlian</h2>
@@ -1070,6 +1036,7 @@
         </div>
     </section>
 
+    <!-- Projects section -->
     <section id="projects" class="fade-up">
         <div class="container">
             <h2 class="section-title">Proyek Terkini</h2>
@@ -1077,6 +1044,7 @@
         </div>
     </section>
 
+    <!-- Contact section -->
     <section id="contact" class="fade-up">
         <div class="container">
             <h2 class="section-title">Hubungi Saya</h2>
@@ -1094,8 +1062,6 @@
     </div>
 </footer>
 
-    <div class="menu-overlay" id="menuOverlay"></div>
-    
 <script>
     (function() {
         // Profile data
@@ -1234,7 +1200,7 @@
         projectCards.forEach(card => appearOnScroll.observe(card));
         document.querySelector('.hero').classList.add('show');
 
-        // ===== EYE TRACKING (Mouse & Touch) - SCROLL TETAP JALAN =====
+        // ===== EYE TRACKING =====
         const pupils = document.querySelectorAll('.pupil');
         const eyes = document.querySelectorAll('.eye');
 
@@ -1255,19 +1221,14 @@
         }
 
         if (pupils.length) {
-            // Mouse move
             window.addEventListener('mousemove', (e) => {
                 updateEyePosition(e.clientX, e.clientY);
             });
-            
-            // Touch move (untuk HP) - TANPA preventDefault biar bisa scroll
             window.addEventListener('touchmove', (e) => {
                 if (e.touches.length > 0) {
                     updateEyePosition(e.touches[0].clientX, e.touches[0].clientY);
                 }
             });
-            
-            // Touch start (untuk update posisi saat pertama menyentuh)
             window.addEventListener('touchstart', (e) => {
                 if (e.touches.length > 0) {
                     updateEyePosition(e.touches[0].clientX, e.touches[0].clientY);
@@ -1275,7 +1236,7 @@
             });
         }
 
-        // ===== MOUTH EXPRESSION (Click & Touch) =====
+        // ===== MOUTH EXPRESSION =====
         const sectionEyes = document.querySelectorAll('.eye-section .eye');
         const mouth = document.getElementById('faceMouth');
 
@@ -1291,17 +1252,15 @@
 
         if (sectionEyes.length && mouth) {
             sectionEyes.forEach(eye => {
-                // Untuk mouse click
                 eye.addEventListener('click', makeAngry);
-                // Untuk touch (HP)
                 eye.addEventListener('touchstart', (e) => {
-                    e.preventDefault(); // Mencegah double trigger
+                    e.preventDefault();
                     makeAngry();
                 });
             });
         }
 
-        // ===== CHARACTER BOX DRAG (Mouse & Touch) =====
+        // ===== CHARACTER BOX DRAG =====
         const charBox = document.querySelector('.character-box');
         if (charBox) {
             let isDragging = false;
@@ -1336,38 +1295,32 @@
                 }
             }
 
-            // Mouse events
             charBox.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 startDrag(e.clientY);
             });
-
             document.addEventListener('mousemove', (e) => {
                 onDrag(e.clientY);
             });
-
             document.addEventListener('mouseup', stopDrag);
 
-            // Touch events
             charBox.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 if (e.touches.length > 0) {
                     startDrag(e.touches[0].clientY);
                 }
             });
-
             document.addEventListener('touchmove', (e) => {
                 if (isDragging && e.touches.length > 0) {
-                    e.preventDefault(); // Prevent scroll ONLY when dragging
+                    e.preventDefault();
                     onDrag(e.touches[0].clientY);
                 }
             });
-
             document.addEventListener('touchend', stopDrag);
             document.addEventListener('touchcancel', stopDrag);
         }
 
-        // ===== ABOUT CARD SLIDER (Click & Touch) =====
+        // ===== ABOUT CARD SLIDER =====
         const aboutCard = document.getElementById('aboutCard');
         if (aboutCard) {
             const images = [
@@ -1403,74 +1356,38 @@
 
         // ===== HAMBURGER MENU =====
         const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+        const mobileMenu = document.getElementById('mobileMenu');
         const menuOverlay = document.getElementById('menuOverlay');
-        
-        if (hamburger && navLinks && menuOverlay) {
-            function closeMenu() {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-                menuOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.width = '';
-            }
-            
-            function openMenu() {
-                hamburger.classList.add('active');
-                navLinks.classList.add('active');
-                menuOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.width = '100%';
-            }
-            
-            hamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                if (navLinks.classList.contains('active')) {
-                    closeMenu();
-                } else {
-                    openMenu();
-                }
+
+        if (hamburger && mobileMenu && menuOverlay) {
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
             });
             
             menuOverlay.addEventListener('click', function() {
-                closeMenu();
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
             });
             
-            const links = navLinks.querySelectorAll('a');
-            links.forEach(link => {
+            mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
-                    closeMenu();
                     
-                    // Scroll ke section setelah menu nutup
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    menuOverlay.classList.remove('active');
+                    
                     setTimeout(() => {
-                        const targetSection = document.querySelector(targetId);
-                        if (targetSection) {
-                            targetSection.scrollIntoView({ behavior: 'smooth' });
-                        }
+                        document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
                     }, 300);
                 });
-            });
-            
-            window.addEventListener('resize', function() {
-                if (window.innerWidth > 768) {
-                    closeMenu();
-                }
             });
         }
     })();
 </script>
 </body>
-
 </html>
-
-
-
-
-
-
-
-
