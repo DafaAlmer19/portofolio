@@ -117,6 +117,85 @@
             gap: 15px;
         }
 
+        /* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    z-index: 20;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--fg);
+    transition: all 0.3s ease;
+}
+
+/* Animasi hamburger jadi X saat aktif */
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Responsive: munculin hamburger di HP */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: var(--bg);
+        border-left: 1px solid var(--border);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transition: right 0.3s ease;
+        z-index: 15;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        display: flex;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    .nav-links a {
+        font-size: 1.2rem;
+        color: var(--fg);
+    }
+    
+    /* Overlay gelap saat menu terbuka */
+    .menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 14;
+    }
+    
+    .menu-overlay.active {
+        display: block;
+    }
+}
+
         .nav-links a {
             text-decoration: none;
             color: var(--gray-dark);
@@ -871,7 +950,16 @@
                 </div>
                 <a href="#" class="logo">HI</a>
             </div>
-            <div class="nav-links">
+            
+            <!-- Hamburger Icon -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- Nav Links -->
+            <div class="nav-links" id="navLinks">
                 <a href="#about">Tentang</a>
                 <a href="#skills">Keahlian</a>
                 <a href="#projects">Proyek</a>
@@ -970,6 +1058,8 @@
     </div>
 </footer>
 
+    <div class="menu-overlay" id="menuOverlay"></div>
+    
 <script>
     (function() {
         // Profile data
@@ -1274,11 +1364,56 @@
                 nextImage();
             });
         }
+
+        // ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+const menuOverlay = document.getElementById('menuOverlay');
+
+if (hamburger && navLinks && menuOverlay) {
+    function toggleMenu() {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        
+        // Prevent body scroll when menu open
+        if (navLinks.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+    
+    hamburger.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking overlay
+    menuOverlay.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            if (navLinks.classList.contains('active')) {
+                toggleMenu();
+            }
+        });
+    });
+    
+    // Close menu when resizing to desktop
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            menuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
     })();
 </script>
 </body>
 
 </html>
+
 
 
 
