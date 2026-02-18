@@ -88,6 +88,13 @@
             z-index: 10;
         }
 
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
         .logo {
             font-size: 1.2rem;
             font-weight: 700;
@@ -105,139 +112,45 @@
             opacity: 0.7;
         }
 
-        /* ===== DESKTOP NAV ( > 768px ) ===== */
-        .desktop-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .desktop-nav .nav-links {
+        .nav-links {
             display: flex;
             gap: 15px;
         }
 
-        .desktop-nav .nav-links a {
+        .nav-links a {
             text-decoration: none;
             color: var(--gray-dark);
             font-weight: 500;
             font-size: 0.9rem;
-            transition: color 0.3s, transform 0.2s;
+            transition: color 0.3s;
         }
 
-        .desktop-nav .nav-links a:hover {
+        .nav-links a:hover {
             color: #000;
-            transform: translateY(-2px);
         }
 
-        /* ===== MOBILE NAV ( < 768px ) ===== */
-        .mobile-nav {
-            display: none;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        /* Hamburger Icon */
-        .hamburger {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: 30px;
-            height: 20px;
-            cursor: pointer;
-            z-index: 1002;
-        }
-
-        .hamburger span {
-            width: 100%;
-            height: 3px;
-            background-color: var(--fg);
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -8px);
-        }
-
-/* Mobile Menu */
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 280px;
-    height: 100vh;
-    background-color: white;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    transition: right 0.3s ease;
-    z-index: 9999; /* Lebih tinggi */
-    display: flex;
-    padding: 20px;
-}
-
-.mobile-menu.active {
-    right: 0;
-}
-
-.mobile-menu a {
-    font-size: 1.3rem;
-    color: var(--fg);
-    text-decoration: none;
-    padding: 15px 30px;
-    width: 100%;
-    text-align: center;
-    font-weight: 500;
-}
-
-.mobile-menu a:active {
-    background-color: var(--gray-light);
-}
-
-/* Overlay */
-.menu-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 9998; /* Lebih tinggi */
-}
-
-.menu-overlay.active {
-    display: block;
-}
-
-/* Saat menu aktif, body tidak bisa di-scroll */
-body.menu-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-}
-
-        /* Responsive: di HP tampilkan mobile-nav, sembunyikan desktop-nav */
+        /* Responsive: di HP nav-links turun ke bawah */
         @media (max-width: 768px) {
-            .desktop-nav {
-                display: none;
+            nav {
+                flex-direction: column;
+                gap: 15px;
             }
             
-            .mobile-nav {
-                display: flex;
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px 20px;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+                padding: 5px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links a {
+                font-size: 0.9rem;
             }
         }
 
@@ -923,8 +836,7 @@ body.menu-open {
 <body>
 <header>
     <div class="container">
-        <!-- Navbar untuk PC/Desktop (tampil di layar > 768px) -->
-        <nav class="desktop-nav">
+        <nav>
             <div style="display: flex; align-items: center; gap: 8px;">
                 <div class="character-box">
                     <div class="character-eyes">
@@ -941,39 +853,8 @@ body.menu-open {
                 <a href="#contact">Kontak</a>
             </div>
         </nav>
-        
-        <!-- Navbar untuk HP (tampil di layar < 768px) -->
-        <nav class="mobile-nav">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <div class="character-box">
-                    <div class="character-eyes">
-                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
-                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
-                    </div>
-                </div>
-                <a href="#" class="logo">HI</a>
-            </div>
-            
-            <!-- Hamburger Icon -->
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            
-            <!-- Menu HP (slide dari kanan) -->
-            <div class="mobile-menu" id="mobileMenu">
-                <a href="#about">Tentang</a>
-                <a href="#skills">Keahlian</a>
-                <a href="#projects">Proyek</a>
-                <a href="#contact">Kontak</a>
-            </div>
-        </nav>
     </div>
 </header>
-
-<!-- Overlay -->
-<div class="menu-overlay" id="menuOverlay"></div>
 
 <main>
     <!-- Hero section -->
@@ -1361,63 +1242,6 @@ body.menu-open {
                 nextImage();
             });
         }
-
-// ===== HAMBURGER MENU =====
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobileMenu');
-const menuOverlay = document.getElementById('menuOverlay');
-const body = document.body;
-
-if (hamburger && mobileMenu && menuOverlay) {
-    function openMenu() {
-        hamburger.classList.add('active');
-        mobileMenu.classList.add('active');
-        menuOverlay.classList.add('active');
-        body.classList.add('menu-open');
-    }
-    
-    function closeMenu() {
-        hamburger.classList.remove('active');
-        mobileMenu.classList.remove('active');
-        menuOverlay.classList.remove('active');
-        body.classList.remove('menu-open');
-    }
-    
-    hamburger.addEventListener('click', function(e) {
-        e.stopPropagation();
-        if (mobileMenu.classList.contains('active')) {
-            closeMenu();
-        } else {
-            openMenu();
-        }
-    });
-    
-    menuOverlay.addEventListener('click', function() {
-        closeMenu();
-    });
-    
-    mobileMenu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            closeMenu();
-            
-            setTimeout(() => {
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 300);
-        });
-    });
-    
-    // Tutup menu saat resize ke desktop
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768) {
-            closeMenu();
-        }
-    });
-}
     })();
 </script>
 </body>
