@@ -169,58 +169,66 @@
             transform: rotate(-45deg) translate(7px, -8px);
         }
 
-        /* Mobile Menu (slide from right) */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 280px;
-            height: 100vh;
-            background-color: white;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            transition: right 0.3s ease;
-            z-index: 1001;
-            display: flex;
-            padding: 20px;
-        }
+/* Mobile Menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    transition: right 0.3s ease;
+    z-index: 9999; /* Lebih tinggi */
+    display: flex;
+    padding: 20px;
+}
 
-        .mobile-menu.active {
-            right: 0;
-        }
+.mobile-menu.active {
+    right: 0;
+}
 
-        .mobile-menu a {
-            font-size: 1.3rem;
-            color: var(--fg);
-            text-decoration: none;
-            padding: 15px 30px;
-            width: 100%;
-            text-align: center;
-            font-weight: 500;
-        }
+.mobile-menu a {
+    font-size: 1.3rem;
+    color: var(--fg);
+    text-decoration: none;
+    padding: 15px 30px;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+}
 
-        .mobile-menu a:active {
-            background-color: var(--gray-light);
-        }
+.mobile-menu a:active {
+    background-color: var(--gray-light);
+}
 
-        /* Overlay */
-        .menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-        }
+/* Overlay */
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 9998; /* Lebih tinggi */
+}
 
-        .menu-overlay.active {
-            display: block;
-        }
+.menu-overlay.active {
+    display: block;
+}
+
+/* Saat menu aktif, body tidak bisa di-scroll */
+body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
 
         /* Responsive: di HP tampilkan mobile-nav, sembunyikan desktop-nav */
         @media (max-width: 768px) {
@@ -1354,39 +1362,62 @@
             });
         }
 
-        // ===== HAMBURGER MENU =====
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuOverlay = document.getElementById('menuOverlay');
+// ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+const body = document.body;
 
-        if (hamburger && mobileMenu && menuOverlay) {
-            hamburger.addEventListener('click', function() {
-                hamburger.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-                menuOverlay.classList.toggle('active');
-            });
-            
-            menuOverlay.addEventListener('click', function() {
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                menuOverlay.classList.remove('active');
-            });
-            
-            mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    
-                    hamburger.classList.remove('active');
-                    mobileMenu.classList.remove('active');
-                    menuOverlay.classList.remove('active');
-                    
-                    setTimeout(() => {
-                        document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
-                    }, 300);
-                });
-            });
+if (hamburger && mobileMenu && menuOverlay) {
+    function openMenu() {
+        hamburger.classList.add('active');
+        mobileMenu.classList.add('active');
+        menuOverlay.classList.add('active');
+        body.classList.add('menu-open');
+    }
+    
+    function closeMenu() {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        body.classList.remove('menu-open');
+    }
+    
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (mobileMenu.classList.contains('active')) {
+            closeMenu();
+        } else {
+            openMenu();
         }
+    });
+    
+    menuOverlay.addEventListener('click', function() {
+        closeMenu();
+    });
+    
+    mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            closeMenu();
+            
+            setTimeout(() => {
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 300);
+        });
+    });
+    
+    // Tutup menu saat resize ke desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeMenu();
+        }
+    });
+}
     })();
 </script>
 </body>
