@@ -129,18 +129,16 @@
             color: #000;
         }
 
-        /* Responsive: di HP nav-links turun ke bawah */
+        /* Responsive: di HP nav-links dihilangkan */
         @media (max-width: 768px) {
             nav {
-                flex-direction: column;
-                gap: 15px;
+                justify-content: flex-start; /* rata kiri */
             }
             
             .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px 20px;
+                display: none; /* hilangkan link di HP */
             }
+        }
             
             .nav-links a {
                 font-size: 1rem;
@@ -1246,3 +1244,4 @@
 </script>
 </body>
 </html>
+
