@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Dafa Almer Dzaky · Portfolio</title>
+    <!-- Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            color: #1e1e1e;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --bg: #ffffff;
+            --fg: #1e1e1e;
+            --gray-light: #f5f5f7;
+            --gray-medium: #9ca3af;
+            --gray-dark: #374151;
+            --border: #e5e7eb;
+        }
+
+        /* Fade up animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fade-up.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .projects-grid .project-card,
+        .skills-grid .skill-item,
+        .contact-item {
+            transition-delay: calc(0.1s * var(--i, 1));
+        }
+
+        /* Profile photo */
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 24px;
+            filter: grayscale(100%);
+            border: 2px solid var(--fg);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s;
+        }
+
+        .profile-photo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.15);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            background-color: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--fg);
+            text-decoration: none;
+            transition: opacity 0.3s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        .logo:hover {
+            opacity: 0.7;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-dark);
+            font-weight: 500;
+            transition: color 0.3s, transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-links a:hover {
+            color: #000;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            animation: subtleAppear 1.2s ease-out;
+        }
+
+        @keyframes subtleAppear {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .hero .subhead {
+            font-size: 1.1rem;
+            color: var(--gray-dark);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            font-weight: 300;
+            animation: fadeUp 1s 0.2s both;
+            padding: 0 10px;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--fg);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            border: 1px solid var(--fg);
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin: 5px;
+            font-size: 0.95rem;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--fg);
+        }
+
+        .btn:hover {
+            background-color: #3a3a3a;
+            border-color: #3a3a3a;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--fg);
+            color: white;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: var(--fg);
+            transition: width 0.4s;
+        }
+
+        .section-title:hover::after {
+            width: 100px;
+        }
+
+        /* About */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1rem;
+            color: var(--gray-dark);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 24px;
+            filter: grayscale(100%);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            transition: transform 0.8s ease, filter 0.6s, box-shadow 0.4s;
+        }
+
+        .about-image img:hover {
+            transform: scale(1.03) rotate(1deg);
+            filter: grayscale(0%);
+            box-shadow: 0 30px 60px -10px rgba(0,0,0,0.2);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 32px;
+            justify-content: center;
+        }
+
+        .skill-item {
+            background-color: var(--gray-light);
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--fg);
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            cursor: default;
+        }
+
+        .skill-item:hover {
+            background-color: var(--fg);
+            color: white;
+            border-color: var(--fg);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(30px);
+            width: 100%;
+        }
+
+        .project-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 30px 40px -15px rgba(0,0,0,0.2);
+            border-color: var(--fg);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background-color: var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-medium);
+            font-size: 2rem;
+            transition: filter 0.6s, transform 0.5s;
+        }
+
+        .project-card:hover .project-img {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+
+        .project-info {
+            padding: 24px;
+        }
+
+        .project-info h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .project-info p {
+            color: var(--gray-dark);
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background-color: var(--gray-light);
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--fg);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .tech-tag:hover {
+            background-color: var(--fg);
+            color: white;
+        }
+
+        .project-links a {
+            color: var(--fg);
+            text-decoration: none;
+            font-weight: 500;
+            margin-right: 20px;
+            transition: color 0.2s, transform 0.2s;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .project-links a i {
+            margin-right: 5px;
+        }
+
+        .project-links a:hover {
+            color: #000;
+            transform: translateX(3px);
+        }
+
+        /* Contact */
+        .contact-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 25px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--fg);
+            text-decoration: none;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
+            min-width: 70px;
+        }
+
+        .contact-item i {
+            font-size: 1.8rem;
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .contact-item span {
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            color: #000;
+        }
+
+        .contact-item:hover i {
+            transform: scale(1.1);
+            color: #000;
+        }
+
+        footer {
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--gray-medium);
+            font-size: 0.8rem;
+        }
+
+        /* Eye Characters */
+        .eye {
+            position: relative;
+        }
+
+        .eyeball {
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            border-radius: 50%;
+            border: 2px solid var(--fg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .pupil {
+            background-color: #1e1e1e;
+            border-radius: 50%;
+            position: absolute;
+            transition: transform 0.05s linear;
+            pointer-events: none;
+        }
+
+        /* Header character */
+        .character-box {
+            width: 45px;
+            height: 60px;
+            background-color: var(--gray-light);
+            border: 2px solid var(--fg);
+            border-radius: 0 0 20px 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, height 0.3s ease;
+            cursor: grab;
+            user-select: none;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .character-text {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 7px;
+            color: var(--gray-dark);
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            opacity: 0.8;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .character-box:active {
+            cursor: grabbing;
+        }
+
+        .character-eyes {
+            display: flex;
+            gap: 6px;
+        }
+
+        .character-box .eye {
+            width: 14px;
+            height: 14px;
+        }
+
+        .character-box .pupil {
+            width: 6px;
+            height: 6px;
+        }
+
+        /* Section eyes */
+        .eye-section {
+            padding: 30px 0;
+        }
+
+        .eyes-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .eyes-row {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .eye-section .eye {
+            width: 80px;
+            height: 80px;
+        }
+
+        .eye-section .eyeball {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .eye-section .eyeball:hover {
+            transform: scale(1.02);
+        }
+
+        .eye-section .pupil {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Mouth */
+        .mouth-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .mouth {
+            width: 120px;
+            height: 40px;
+            background-color: #1e1e1e;
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: border-radius 0.3s ease, background-color 0.2s;
+        }
+
+        .mouth.angry {
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .teeth {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            width: auto;
+            height: 70%;
+        }
+
+        .teeth span {
+            width: 14px;
+            height: 18px;
+            background-color: white;
+            border-radius: 2px 2px 4px 4px;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+        }
+
+        /* Card Stack */
+        .card-stack {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100%;
+            border-radius: 24px;
+            filter: grayscale(100%);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+            transition: filter 0.6s ease, box-shadow 0.4s;
+            cursor: pointer;
+            will-change: transform;
+        }
+
+        .card:hover {
+            filter: grayscale(0%);
+            box-shadow: 0 30px 60px -10px rgba(0,0,0,0.2);
+        }
+
+        .card-throw {
+            animation: throwCard 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes throwCard {
+            0% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(200px) rotate(20deg);
+                opacity: 0;
+            }
+        }
+
+        .card-appear {
+            animation: appearCard 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes appearCard {
+            0% {
+                transform: translateX(-200px) rotate(-10deg);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(0%);
+            transition: filter 0.6s ease;
+        }
+
+        .project-card:hover .project-img img {
+            filter: grayscale(100%);
+        }
+
+        ::selection {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Tablet */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .container {
+                padding: 0 32px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+            
+            .nav-links {
+                gap: 25px;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 1024px) {
+            .container {
+                padding: 0 24px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 40px;
+            }
+            
+            .hero h1 {
+                font-size: 4rem;
+            }
+            
+            .hero .subhead {
+                font-size: 1.25rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 60px;
+            }
+            
+            .nav-links a {
+                font-size: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+                max-width: none;
+            }
+            
+            .character-box {
+                width: 50px;
+                height: 70px;
+            }
+            
+            .eye-section .eye {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .mouth {
+                width: 140px;
+                height: 50px;
+            }
+            
+            .teeth span {
+                width: 16px;
+                height: 22px;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subhead {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .nav-links {
+                gap: 10px;
+            }
+            
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+            
+            .logo {
+                font-size: 1rem;
+                max-width: 120px;
+            }
+            
+            .character-box {
+                width: 40px;
+                height: 55px;
+            }
+            
+            .character-box .eye {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .character-box .pupil {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .character-text {
+                font-size: 6px;
+                bottom: 35px;
+            }
+            
+            .eye-section .eye {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .eye-section .pupil {
+                width: 18px;
+                height: 18px;
+            }
+            
+            .mouth {
+                width: 100px;
+                height: 35px;
+            }
+            
+            .teeth span {
+                width: 10px;
+                height: 14px;
+            }
+            
+            .contact-links {
+                gap: 15px;
+            }
+            
+            .contact-item i {
+                font-size: 1.5rem;
+            }
+            
+            .contact-item span {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Fix untuk mobile navigation */
+        @media (max-width: 360px) {
+            .nav-links {
+                gap: 5px;
+            }
+            
+            .nav-links a {
+                font-size: 0.7rem;
+            }
+            
+            .logo {
+                font-size: 0.9rem;
+                max-width: 100px;
+            }
+            
+            .character-box {
+                width: 35px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="character-box">
+                    <div class="character-eyes">
+                        <div class="eye">
+                            <div class="eyeball">
+                                <div class="pupil"></div>
+                            </div>
+                        </div>
+                        <div class="eye">
+                            <div class="eyeball">
+                                <div class="pupil"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="character-text">tarik saya</div>
+                </div>
+                <a href="#" class="logo">print("HELLO WORLD")</a>
+            </div>
+            <div class="nav-links">
+                <a href="#about">Tentang</a>
+                <a href="#skills">Keahlian</a>
+                <a href="#projects">Proyek</a>
+                <a href="#contact">Kontak</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section class="hero fade-up">
+        <div class="container">
+            <img src="https://placehold.co/150x150/1e1e1e/ffffff?text=Dafa" 
+                 alt="Dafa Almer Dzaky" 
+                 class="profile-photo">
+            <h1>Dafa Almer Dzaky</h1>
+            <p class="subhead">Web Developer | HTML, CSS, JavaScript | C# & Kotlin Enthusiast</p>
+            <div>
+                <a href="#projects" class="btn">Lihat Proyek</a>
+                <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="fade-up">
+        <div class="container">
+            <h2 class="section-title">Tentang Saya</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p id="about-description"></p>
+                    <p id="about-detail"></p>
+                </div>
+            <div class="about-image">
+                <div class="card-stack">
+                    <img class="card" id="aboutCard" src="https://placehold.co/400x400/1e1e1e/ffffff?text=Dafa+1" alt="Dafa 1">
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="eye-section fade-up">
+        <div class="container">
+            <div class="eyes-container">
+                <div class="eyes-row">
+                    <div class="eye">
+                        <div class="eyeball">
+                            <div class="pupil"></div>
+                        </div>
+                    </div>
+                    <div class="eye">
+                        <div class="eyeball">
+                            <div class="pupil"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mouth-row">
+                    <div class="mouth smile" id="faceMouth">
+                        <div class="teeth">
+                            <span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="fade-up">
+        <div class="container">
+            <h2 class="section-title">Keahlian</h2>
+            <div class="skills-grid" id="skills-container"></div>
+        </div>
+    </section>
+
+    <section id="projects" class="fade-up">
+        <div class="container">
+            <h2 class="section-title">Proyek Terkini</h2>
+            <div class="projects-grid" id="projects-container"></div>
+        </div>
+    </section>
+
+    <section id="contact" class="fade-up">
+        <div class="container">
+            <h2 class="section-title">Hubungi Saya</h2>
+            <div class="contact-content">
+                <p style="max-width: 500px; color: var(--gray-dark);">Saya terbuka untuk diskusi, kolaborasi, atau sekadar ngobrol tentang teknologi.</p>
+                <div class="contact-links" id="contact-links"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2026 Dafa Almer Dzaky.</p>
+    </div>
+</footer>
+
+<script>
+    (function() {
+        // Profile data
+        const profile = {
+            about: "Saya Dafa Almer Dzaky, web developer yang fokus membuat website modern dan fungsional. Dengan pengalaman di HTML, CSS, dan JavaScript, saya bisa membangun landing page, company profile, hingga website interaktif. Saya juga familiar dengan C# dan Kotlin, yang membantu saya memahami logika pemrograman secara mendalam.",
+            aboutDetail: "Saya percaya bahwa website yang baik adalah yang cepat, responsif, dan mudah digunakan. Setiap baris kode yang saya tulis selalu saya usahakan untuk bersih dan mudah dipelihara. Saya juga terbiasa menggunakan AI sebagai tools untuk mempercepat development—bukan sebagai ketergantungan, tapi sebagai asisten yang membantu saya bekerja lebih efisien. Saya siap membantu mewujudkan kebutuhan websitemu."
+        };
+
+        const skills = [
+            "HTML5", "CSS3", "JavaScript", "Responsive Design", 
+            "C# (Basic)", "Kotlin", "Unity (Basic)"
+        ];
+
+        const projects = [
+            {
+                title: "Zombie Survival Game (Unity)",
+                description: "Game top-down shooter dengan sistem wave. Proyek ini menunjukkan pemahaman saya tentang logika pemrograman dan game development.",
+                tech: ["Unity", "C#"],
+                imageIcon: '<i class="fas fa-gamepad"></i>',
+                imageUrl: 'zombieproject.png'
+            }
+        ];
+
+        const contacts = [
+            { icon: "fab fa-github", label: "GitHub", url: "https://github.com/dafaalm" },
+            { icon: "fab fa-linkedin-in", label: "LinkedIn", url: "https://linkedin.com/in/dafaalm" },
+            { icon: "fas fa-envelope", label: "Email", url: "mailto:dafa@example.com" },
+            { icon: "fab fa-instagram", label: "Instagram", url: "https://instagram.com/dafaalm" }
+        ];
+
+        // Render about
+        document.getElementById('about-description').textContent = profile.about;
+        document.getElementById('about-detail').textContent = profile.aboutDetail;
+
+        // Render skills
+        const skillsContainer = document.getElementById('skills-container');
+        skills.forEach((skill, index) => {
+            const span = document.createElement('span');
+            span.className = 'skill-item';
+            span.textContent = skill;
+            span.style.setProperty('--i', index + 1);
+            skillsContainer.appendChild(span);
+        });
+
+        // Render projects
+        const projectsContainer = document.getElementById('projects-container');
+        projects.forEach((proj, index) => {
+            const card = document.createElement('div');
+            card.className = 'project-card';
+            card.style.setProperty('--i', index + 1);
+
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'project-img';
+            
+            // Cek apakah ada imageUrl
+            if (proj.imageUrl) {
+                const img = document.createElement('img');
+                img.src = proj.imageUrl;
+                img.alt = proj.title;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                imgDiv.appendChild(img);
+            } else {
+                imgDiv.innerHTML = proj.imageIcon || '<i class="fas fa-code"></i>';
+            }
+
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'project-info';
+
+            const title = document.createElement('h3');
+            title.textContent = proj.title;
+
+            const desc = document.createElement('p');
+            desc.textContent = proj.description;
+
+            const techDiv = document.createElement('div');
+            techDiv.className = 'project-tech';
+            proj.tech.forEach(t => {
+                const tag = document.createElement('span');
+                tag.className = 'tech-tag';
+                tag.textContent = t;
+                techDiv.appendChild(tag);
+            });
+
+            const linksDiv = document.createElement('div');
+            linksDiv.className = 'project-links';
+            if (proj.link) {
+                const demoLink = document.createElement('a');
+                demoLink.href = proj.link;
+                demoLink.innerHTML = '<i class="fas fa-external-link-alt"></i> Demo';
+                linksDiv.appendChild(demoLink);
+            }
+            if (proj.github) {
+                const githubLink = document.createElement('a');
+                githubLink.href = proj.github;
+                githubLink.innerHTML = '<i class="fab fa-github"></i> Kode';
+                linksDiv.appendChild(githubLink);
+            }
+
+            infoDiv.appendChild(title);
+            infoDiv.appendChild(desc);
+            infoDiv.appendChild(techDiv);
+            infoDiv.appendChild(linksDiv);
+
+            card.appendChild(imgDiv);
+            card.appendChild(infoDiv);
+
+            projectsContainer.appendChild(card);
+        });
+
+        // Render contacts
+        const contactContainer = document.getElementById('contact-links');
+        contacts.forEach((c, index) => {
+            const a = document.createElement('a');
+            a.href = c.url;
+            a.className = 'contact-item';
+            a.target = '_blank';
+            a.innerHTML = `<i class="${c.icon}"></i><span>${c.label}</span>`;
+            a.style.setProperty('--i', index + 1);
+            contactContainer.appendChild(a);
+        });
+
+        // Scroll reveal
+        const faders = document.querySelectorAll('.fade-up');
+        const projectCards = document.querySelectorAll('.project-card');
+        const appearOptions = { threshold: 0.15, rootMargin: '0px 0px -30px 0px' };
+        const appearOnScroll = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target);
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => appearOnScroll.observe(fader));
+        projectCards.forEach(card => appearOnScroll.observe(card));
+        document.querySelector('.hero').classList.add('show');
+
+        // Eye tracking
+        const pupils = document.querySelectorAll('.pupil');
+        const eyes = document.querySelectorAll('.eye');
+
+        if (pupils.length) {
+            window.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+
+                pupils.forEach((pupil, idx) => {
+                    const eye = eyes[idx];
+                    if (!eye) return;
+                    const rect = eye.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    const angle = Math.atan2(mouseY - centerY, mouseX - centerX);
+                    const maxDist = (rect.width / 2) - (pupil.offsetWidth / 2);
+                    const dist = Math.min(Math.hypot(mouseX - centerX, mouseY - centerY), maxDist);
+                    const x = Math.cos(angle) * dist;
+                    const y = Math.sin(angle) * dist;
+                    pupil.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        }
+
+        // Mouth expression on click
+        const sectionEyes = document.querySelectorAll('.eye-section .eye');
+        const mouth = document.getElementById('faceMouth');
+
+        if (sectionEyes.length && mouth) {
+            sectionEyes.forEach(eye => {
+                eye.addEventListener('click', () => {
+                    mouth.classList.remove('smile');
+                    mouth.classList.add('angry');
+                    setTimeout(() => {
+                        mouth.classList.remove('angry');
+                        mouth.classList.add('smile');
+                    }, 1000);
+                });
+            });
+        }
+
+        // Character box drag-to-stretch
+        const charBox = document.querySelector('.character-box');
+        if (charBox) {
+            let isDragging = false;
+            let startY, startHeight;
+            const originalHeight = charBox.offsetHeight;
+
+            charBox.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                isDragging = true;
+                startY = e.clientY;
+                startHeight = charBox.offsetHeight;
+                charBox.style.transition = 'none';
+                charBox.style.cursor = 'ns-resize';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaY = e.clientY - startY;
+                let newHeight = startHeight + deltaY;
+                newHeight = Math.min(200, Math.max(40, newHeight));
+                charBox.style.height = newHeight + 'px';
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    charBox.style.transition = 'height 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+                    charBox.style.height = originalHeight + 'px';
+                    charBox.style.cursor = 'grab';
+                    setTimeout(() => {
+                        charBox.style.transition = '';
+                    }, 500);
+                }
+            });
+        }
+
+        // About card image slider dengan efek lempar
+        const aboutCard = document.getElementById('aboutCard');
+        if (aboutCard) {
+            const images = [
+                'https://placehold.co/400x400/1e1e1e/ffffff?text=Dafa+1',
+                'https://placehold.co/400x400/1e1e1e/ffffff?text=Dafa+2',
+                'https://placehold.co/400x400/1e1e1e/ffffff?text=Dafa+3'
+            ];
+            let currentIndex = 0;
+
+            aboutCard.addEventListener('click', () => {
+                if (aboutCard.classList.contains('card-throw')) return;
+
+                aboutCard.classList.add('card-throw');
+
+                setTimeout(() => {
+                    currentIndex = (currentIndex + 1) % images.length;
+                    aboutCard.src = images[currentIndex];
+                    aboutCard.classList.remove('card-throw');
+                    aboutCard.classList.add('card-appear');
+
+                    setTimeout(() => {
+                        aboutCard.classList.remove('card-appear');
+                    }, 500);
+                }, 600);
+            });
+        }
+    })();
+</script>
+</body>
+</html>
