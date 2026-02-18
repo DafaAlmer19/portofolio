@@ -1045,7 +1045,6 @@
             const imgDiv = document.createElement('div');
             imgDiv.className = 'project-img';
             
-            // Cek apakah ada imageUrl
             if (proj.imageUrl) {
                 const img = document.createElement('img');
                 img.src = proj.imageUrl;
@@ -1130,73 +1129,98 @@
         projectCards.forEach(card => appearOnScroll.observe(card));
         document.querySelector('.hero').classList.add('show');
 
-        // Eye tracking
+        // ===== EYE TRACKING (Mouse & Touch) =====
         const pupils = document.querySelectorAll('.pupil');
         const eyes = document.querySelectorAll('.eye');
 
-        if (pupils.length) {
-            window.addEventListener('mousemove', (e) => {
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
-
-                pupils.forEach((pupil, idx) => {
-                    const eye = eyes[idx];
-                    if (!eye) return;
-                    const rect = eye.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-                    const angle = Math.atan2(mouseY - centerY, mouseX - centerX);
-                    const maxDist = (rect.width / 2) - (pupil.offsetWidth / 2);
-                    const dist = Math.min(Math.hypot(mouseX - centerX, mouseY - centerY), maxDist);
-                    const x = Math.cos(angle) * dist;
-                    const y = Math.sin(angle) * dist;
-                    pupil.style.transform = `translate(${x}px, ${y}px)`;
-                });
+        function updateEyePosition(clientX, clientY) {
+            pupils.forEach((pupil, idx) => {
+                const eye = eyes[idx];
+                if (!eye) return;
+                const rect = eye.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const angle = Math.atan2(clientY - centerY, clientX - centerX);
+                const maxDist = (rect.width / 2) - (pupil.offsetWidth / 2);
+                const dist = Math.min(Math.hypot(clientX - centerX, clientY - centerY), maxDist);
+                const x = Math.cos(angle) * dist;
+                const y = Math.sin(angle) * dist;
+                pupil.style.transform = `translate(${x}px, ${y}px)`;
             });
         }
 
-        // Mouth expression on click
+        if (pupils.length) {
+            // Mouse move
+            window.addEventListener('mousemove', (e) => {
+                updateEyePosition(e.clientX, e.clientY);
+            });
+            
+            // Touch move (untuk HP)
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    e.preventDefault(); // Mencegah scroll saat menyentuh mata
+                    updateEyePosition(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            }, { passive: false });
+            
+            // Touch start (untuk update posisi saat pertama menyentuh)
+            window.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) {
+                    updateEyePosition(e.touches[0].clientX, e.touches[0].clientY);
+                }
+            });
+        }
+
+        // ===== MOUTH EXPRESSION (Click & Touch) =====
         const sectionEyes = document.querySelectorAll('.eye-section .eye');
         const mouth = document.getElementById('faceMouth');
 
+        function makeAngry() {
+            if (!mouth) return;
+            mouth.classList.remove('smile');
+            mouth.classList.add('angry');
+            setTimeout(() => {
+                mouth.classList.remove('angry');
+                mouth.classList.add('smile');
+            }, 1000);
+        }
+
         if (sectionEyes.length && mouth) {
             sectionEyes.forEach(eye => {
-                eye.addEventListener('click', () => {
-                    mouth.classList.remove('smile');
-                    mouth.classList.add('angry');
-                    setTimeout(() => {
-                        mouth.classList.remove('angry');
-                        mouth.classList.add('smile');
-                    }, 1000);
-                });
+                // Untuk mouse click
+                eye.addEventListener('click', makeAngry);
+                // Untuk touch (HP)
+                eye.addEventListener('touchstart', (e) => {
+                    e.preventDefault(); // Mencegah double trigger
+                    makeAngry();
+                }, { passive: false });
             });
         }
 
-        // Character box drag-to-stretch
+        // ===== CHARACTER BOX DRAG (Mouse & Touch) =====
         const charBox = document.querySelector('.character-box');
         if (charBox) {
             let isDragging = false;
             let startY, startHeight;
             const originalHeight = charBox.offsetHeight;
 
-            charBox.addEventListener('mousedown', (e) => {
-                e.preventDefault();
+            function startDrag(clientY) {
                 isDragging = true;
-                startY = e.clientY;
+                startY = clientY;
                 startHeight = charBox.offsetHeight;
                 charBox.style.transition = 'none';
                 charBox.style.cursor = 'ns-resize';
-            });
+            }
 
-            document.addEventListener('mousemove', (e) => {
+            function onDrag(clientY) {
                 if (!isDragging) return;
-                const deltaY = e.clientY - startY;
+                const deltaY = clientY - startY;
                 let newHeight = startHeight + deltaY;
                 newHeight = Math.min(200, Math.max(40, newHeight));
                 charBox.style.height = newHeight + 'px';
-            });
+            }
 
-            document.addEventListener('mouseup', () => {
+            function stopDrag() {
                 if (isDragging) {
                     isDragging = false;
                     charBox.style.transition = 'height 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
@@ -1206,10 +1230,40 @@
                         charBox.style.transition = '';
                     }, 500);
                 }
+            }
+
+            // Mouse events
+            charBox.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                startDrag(e.clientY);
             });
+
+            document.addEventListener('mousemove', (e) => {
+                onDrag(e.clientY);
+            });
+
+            document.addEventListener('mouseup', stopDrag);
+
+            // Touch events
+            charBox.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                if (e.touches.length > 0) {
+                    startDrag(e.touches[0].clientY);
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    e.preventDefault(); // Mencegah scroll saat tarik
+                    onDrag(e.touches[0].clientY);
+                }
+            }, { passive: false });
+
+            document.addEventListener('touchend', stopDrag);
+            document.addEventListener('touchcancel', stopDrag);
         }
 
-        // About card image slider dengan efek lempar
+        // ===== ABOUT CARD SLIDER (Click & Touch) =====
         const aboutCard = document.getElementById('aboutCard');
         if (aboutCard) {
             const images = [
@@ -1219,7 +1273,7 @@
             ];
             let currentIndex = 0;
 
-            aboutCard.addEventListener('click', () => {
+            function nextImage() {
                 if (aboutCard.classList.contains('card-throw')) return;
 
                 aboutCard.classList.add('card-throw');
@@ -1234,10 +1288,17 @@
                         aboutCard.classList.remove('card-appear');
                     }, 500);
                 }, 600);
-            });
+            }
+
+            aboutCard.addEventListener('click', nextImage);
+            aboutCard.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Mencegah double trigger
+                nextImage();
+            }, { passive: false });
         }
     })();
 </script>
 </body>
 
 </html>
+
