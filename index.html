@@ -129,14 +129,19 @@
             color: #000;
         }
 
-        /* Responsive: di HP nav-links dihilangkan */
+        /* Responsive: di HP character-box di tengah */
         @media (max-width: 768px) {
             nav {
-                justify-content: flex-start; /* rata kiri */
+                justify-content: center;
             }
             
             .nav-links {
-                display: none; /* hilangkan link di HP */
+                display: none;
+            }
+            
+            /* Tengahin karakter + logo */
+            nav > div:first-child {
+                margin: 0 auto;
             }
         }
             
@@ -1244,4 +1249,5 @@
 </script>
 </body>
 </html>
+
 
