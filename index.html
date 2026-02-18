@@ -834,6 +834,20 @@
                 font-size: 0.7rem;
             }
         }
+
+        .character-text {
+        position: absolute;
+        bottom: 45px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 8px;
+        color: var(--gray-dark);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+        opacity: 0.8;
+        pointer-events: none;
+    }
     </style>
 </head>
 <body>
@@ -843,9 +857,18 @@
             <div style="display: flex; align-items: center; gap: 8px;">
                 <div class="character-box">
                     <div class="character-eyes">
-                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
-                        <div class="eye"><div class="eyeball"><div class="pupil"></div></div></div>
+                        <div class="eye">
+                            <div class="eyeball">
+                                <div class="pupil"></div>
+                                </div>
+                            </div>
+                        <div class="eye">
+                            <div class="eyeball">
+                                <div class="pupil"></div>
+                            </div>
+                        </div>
                     </div>
+                    <div class="character-text">tarik saya</div>
                 </div>
                 <a href="#" class="logo">HI</a>
             </div>
@@ -1249,5 +1272,6 @@
 </script>
 </body>
 </html>
+
 
 
