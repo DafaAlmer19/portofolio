@@ -1108,7 +1108,7 @@
         projectCards.forEach(card => appearOnScroll.observe(card));
         document.querySelector('.hero').classList.add('show');
 
-        // ===== EYE TRACKING (Mouse & Touch) =====
+        // ===== EYE TRACKING (Mouse & Touch) - SCROLL TETAP JALAN =====
         const pupils = document.querySelectorAll('.pupil');
         const eyes = document.querySelectorAll('.eye');
 
@@ -1134,12 +1134,12 @@
                 updateEyePosition(e.clientX, e.clientY);
             });
             
-            // Touch move (untuk HP)
+            // Touch move (untuk HP) - TANPA preventDefault biar bisa scroll
             window.addEventListener('touchmove', (e) => {
                 if (e.touches.length > 0) {
                     updateEyePosition(e.touches[0].clientX, e.touches[0].clientY);
                 }
-            }, { passive: false });
+            });
             
             // Touch start (untuk update posisi saat pertama menyentuh)
             window.addEventListener('touchstart', (e) => {
@@ -1171,7 +1171,7 @@
                 eye.addEventListener('touchstart', (e) => {
                     e.preventDefault(); // Mencegah double trigger
                     makeAngry();
-                }, { passive: false });
+                });
             });
         }
 
@@ -1228,14 +1228,14 @@
                 if (e.touches.length > 0) {
                     startDrag(e.touches[0].clientY);
                 }
-            }, { passive: false });
+            });
 
             document.addEventListener('touchmove', (e) => {
-                if (e.touches.length > 0) {
-                    e.preventDefault(); // Mencegah scroll saat tarik
+                if (isDragging && e.touches.length > 0) {
+                    e.preventDefault(); // Prevent scroll ONLY when dragging
                     onDrag(e.touches[0].clientY);
                 }
-            }, { passive: false });
+            });
 
             document.addEventListener('touchend', stopDrag);
             document.addEventListener('touchcancel', stopDrag);
@@ -1270,15 +1270,16 @@
 
             aboutCard.addEventListener('click', nextImage);
             aboutCard.addEventListener('touchstart', (e) => {
-                e.preventDefault(); // Mencegah double trigger
+                e.preventDefault();
                 nextImage();
-            }, { passive: false });
+            });
         }
     })();
 </script>
 </body>
 
 </html>
+
 
 
 
