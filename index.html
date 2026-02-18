@@ -835,19 +835,28 @@
             }
         }
 
-        .character-text {
-        position: absolute;
-        bottom: 45px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-size: 8px;
-        color: var(--gray-dark);
-        font-weight: 400;
-        letter-spacing: 0.3px;
-        opacity: 0.8;
-        pointer-events: none;
+.character-text {
+    position: absolute;
+    bottom: 4px;           /* turunin dikit dari bawah */
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 7px;        /* lebih kecil lagi */
+    color: var(--gray-dark);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+    opacity: 0.6;          /* lebih transparan */
+    pointer-events: none;
+    line-height: 1;
+    z-index: 2;
+}
+
+        @media (max-width: 480px) {
+    .character-text {
+        font-size: 6px;     /* lebih kecil di HP */
+        bottom: 3px;
     }
+}
     </style>
 </head>
 <body>
@@ -1272,6 +1281,7 @@
 </script>
 </body>
 </html>
+
 
 
 
